@@ -234,8 +234,8 @@ class KeyBERT:
         df = count.transform(docs)
 
         # Extract embeddings
-        doc_embeddings = self.model.embed(docs)
-        word_embeddings = self.model.embed(words)
+        doc_embeddings = self.model.embed(docs, verbose=True)
+        word_embeddings = self.model.embed(words, verbose=True)
 
         # Extract keywords
         keywords = []

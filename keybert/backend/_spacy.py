@@ -88,12 +88,15 @@ class SpacyBackend(BaseEmbedder):
         # Extract embeddings from a general spacy model
         else:
             embeddings = []
-            for doc in tqdm(documents, position=0, leave=True, disable=not verbose):
-                try:
-                    vector = self.embedding_model(doc).vector
-                except ValueError:
-                    vector = self.embedding_model("An empty document").vector
+            pbar = tqdm(total = int(len(documents)), position=0, leave=True, disable=not verbose)
+            e_pipe = self.embedding_model.pipe(documents)
+            for doc in e_pipe:
+                # try:
+                vector = doc.vector.get()
+                # except ValueError:
+                #     vector = self.embedding_model("An empty document").vector
                 embeddings.append(vector)
+                pbar.update(1)
             embeddings = np.array(embeddings)
 
         return embeddings
