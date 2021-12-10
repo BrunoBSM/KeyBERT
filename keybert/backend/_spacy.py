@@ -91,10 +91,10 @@ class SpacyBackend(BaseEmbedder):
             pbar = tqdm(total = int(len(documents)), position=0, leave=True, disable=not verbose)
             e_pipe = self.embedding_model.pipe(documents)
             for doc in e_pipe:
-                # try:
-                vector = doc.vector.get()
-                # except ValueError:
-                #     vector = self.embedding_model("An empty document").vector
+                try:
+                    vector = doc.vector.get()
+                except:
+                    vector = doc.vector
                 embeddings.append(vector)
                 pbar.update(1)
             embeddings = np.array(embeddings)
